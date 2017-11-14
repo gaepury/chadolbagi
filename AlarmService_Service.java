@@ -1,8 +1,10 @@
 package com.example.g.cardet;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import org.datavec.api.records.reader.RecordReader;
@@ -47,14 +49,14 @@ public class AlarmService_Service extends BroadcastReceiver {
     public static final int numClasses = 2;
     public static final int batchSizeTraining = 500;
     public File locationToSave_dp; //DP 모델 저장 위치(핸드폰 기준)
-    public static final String savedDpModel = "savedDpModel55.zip"; //DP 모델 저장 파일 이름
-    public static final String savedCluModel = "savedCluModel55.ser"; // 클러스터링 모델 저장 파일 이름
-    public static final String tempDpUpdateData = "dp_update_certain55.csv"; //dp 재학습할때 담는 변수
-    public static final String RF_TrainData = "rf_training55.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
-    public static final String DP_TrainData = "dp_training55.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
-    public static final String CLU_TrainData = "clu_training55.arff"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
-    public static final String buffer_riskySave = "buffer_riskySave55.csv";
-    public static final String buffer_normalSave = "buffer_normalSave55.csv";
+    public static final String savedDpModel = "savedDpModel57.zip"; //DP 모델 저장 파일 이름
+    public static final String savedCluModel = "savedCluModel57.ser"; // 클러스터링 모델 저장 파일 이름
+    public static final String tempDpUpdateData = "dp_update_certain57.csv"; //dp 재학습할때 담는 변수
+    public static final String RF_TrainData = "rf_training57.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
+    public static final String DP_TrainData = "dp_training57.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
+    public static final String CLU_TrainData = "clu_training57.arff"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
+    public static final String buffer_riskySave = "buffer_riskySave57.csv";
+    public static final String buffer_normalSave = "buffer_normalSave57.csv";
 
     public int c = 0; //검지 횟수
     public int count = 0; //위험 또는 일반으로 검지된 데이터 수
@@ -75,15 +77,25 @@ public class AlarmService_Service extends BroadcastReceiver {
         Log.i("onReceive", "onReceive실행");
         this.context = context;
         modelUpdating();
-
+//        try {
+//            modelUpdating();
+//        }catch(Exception e){
+//            Log.i("updating","error");
+//        }
+//        android.support.v4.app.NotificationCompat.Builder mBuilder =
+//                new NotificationCompat.Builder(context)
+//                        .setSmallIcon(R.mipmap.ic_launcher)
+//                        .setContentTitle("차돌바기")
+//                        .setContentText("모델 업데이트 완료");
+//
+//        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager.notify(1, mBuilder.build());
+//        Log.i("updating","업데이트 완료");
     }
-
 
     public void modelUpdating() {
         Log.i("modelUpdating", "호출");
         try {
-
-
             BufferedReader brrisky = new BufferedReader(new FileReader(new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + buffer_riskySave)));
             BufferedReader brnormal = new BufferedReader(new FileReader(new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + buffer_normalSave)));
             String s = "";
@@ -153,7 +165,6 @@ public class AlarmService_Service extends BroadcastReceiver {
                     pw.println((int) updateDatas[i][0] + "," + (int) updateDatas[i][1] + "," + (int) updateDatas[i][2] + "," + (int) updateDatas[i][3] + "," + (int) updateDatas[i][4] + "," + (int) updateDatas[i][5] + "," + (int) updateDatas[i][6] + "," + (int) updateDatas[i][7]);
                     pw.flush();
                 }
-
 //                            System.out.println("데이터" + (i + 1) + "번째 쓰기 완료");
             }
             BufferedReader br = new BufferedReader(new FileReader(new File(context.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + RF_TrainData)));
@@ -351,5 +362,4 @@ public class AlarmService_Service extends BroadcastReceiver {
             }
         }
     }
-
 }

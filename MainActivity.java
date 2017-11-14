@@ -112,16 +112,16 @@ public class MainActivity extends Activity
 
     //신경망 모델링을 하고 난 후에는 모델링 된 객체를 불러오기만 함
     public File locationToSave_dp; //DP 모델 저장 위치(핸드폰 기준)
-    public static final String savedDpModel = "savedDpModel55.zip"; //DP 모델 저장 파일 이름
-    public static final String savedCluModel = "savedCluModel55.ser"; // 클러스터링 모델 저장 파일 이름
-    public static final String tempDpUpdateData = "dp_update_certain55.csv"; //dp 재학습할때 담는 변수
-    public static final String tempCluTestData = "clu_test55.csv"; //클러스터링 검지할때 테스트 데이터 담는 변수
-    public static final String RF_TrainData = "rf_training55.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
-    public static final String DP_TrainData = "dp_training55.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
-    public static final String CLU_TrainData = "clu_training55.arff"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
-    public static final String preferenceInit = "init55";
-    public static final String buffer_riskySave = "buffer_riskySave55.csv";
-    public static final String buffer_normalSave = "buffer_normalSave55.csv";
+    public static final String savedDpModel = "savedDpModel57.zip"; //DP 모델 저장 파일 이름
+    public static final String savedCluModel = "savedCluModel57.ser"; // 클러스터링 모델 저장 파일 이름
+    public static final String tempDpUpdateData = "dp_update_certain57.csv"; //dp 재학습할때 담는 변수
+    public static final String tempCluTestData = "clu_test57.csv"; //클러스터링 검지할때 테스트 데이터 담는 변수
+    public static final String RF_TrainData = "rf_training57.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
+    public static final String DP_TrainData = "dp_training57.csv"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
+    public static final String CLU_TrainData = "clu_training57.arff"; //핸드폰에 저장할 초기 훈련데이터 파일 이름
+    public static final String preferenceInit = "init57";
+    public static final String buffer_riskySave = "buffer_riskySave57.csv";
+    public static final String buffer_normalSave = "buffer_normalSave57.csv";
     public static final int RISK_SITUATION = 1; //위험상황
     public static final int NORMAL_SITUATION = 2; //일반상황
     public static final int SUSPICION_SITUATION = 3; //의심상황
@@ -271,6 +271,9 @@ public class MainActivity extends Activity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             permissions.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(android.Manifest.permission.READ_PHONE_STATE);
+
         if (permissions.size() > 0)
             ActivityCompat.requestPermissions(this, permissions.toArray(new String[permissions.size()]), 110);
         else {
@@ -334,8 +337,6 @@ public class MainActivity extends Activity
     }
 
     public void connectServer() {
-//        detect = (Button) findViewById(R.id.detect);
-//        data_update = (Button) findViewById(R.id.data_upade);
         Log.i("server", "connectServer 호출");
         //서버 접속 쓰레드
         new Thread() {
@@ -399,50 +400,6 @@ public class MainActivity extends Activity
                 }
             }
         }.start();
-//        detect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) { //검지
-////                try {
-////                    errorFlag = false;
-////                    double attr1 = Double.parseDouble(b_speed.getText().toString());
-////                    double attr2 = Double.parseDouble(a_speed.getText().toString());
-////                    double attr3 = Double.parseDouble(max_decel.getText().toString());
-////                    double attr4 = Double.parseDouble(avg_decel.getText().toString());
-////                    double attr5 = Double.parseDouble(distance.getText().toString());
-////                    double attr6 = Double.parseDouble(second.getText().toString());
-////                    double attr7 = Double.parseDouble(clearance.getText().toString());
-//////                    if (!value_check(attr1, attr2, attr3, attr4, attr5, attr6, attr7)) {
-//////                        errorFlag = true;
-//////                    }
-////                } catch (Exception e) {
-////                    errorFlag = true;
-////                    Toast.makeText(getApplicationContext(), "숫자를 입력하세요", Toast.LENGTH_SHORT).show();
-////                }
-////                if (!errorFlag) {
-//                try {
-//                    int result = modelDetecting();
-//                    if (!(result == SUSPICION_SITUATION)) {
-//                        count++;
-//                        detect_count.setText("갱신가능데이터 : " + count);
-//                    }
-//                } catch (Exception e) {
-//                    Toast.makeText(getApplicationContext(), "모델검지 error", Toast.LENGTH_SHORT).show();
-//                }
-////                }
-//            }
-//        });
-//
-//        data_update.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) { //갱신
-//                //라벨까지 7개
-//                Thread thread = new Thread(null, getDATA); //스레드 생성후 스레드에서 작업할 함수 지정(getDATA)
-//                thread.start();
-//                showDialog(PROGRESS_DIALOG); //다이얼로그 팝업
-//                count = 0;
-//                detect_count.setText("갱신가능데이터 :" + count);
-//            }
-//        });
     }
 
     public void initModeling() {
@@ -701,8 +658,15 @@ public class MainActivity extends Activity
 
             DataOutputStream dos = sm.getServer_dos();
             dos.writeUTF("alarm");
+            dos.writeUTF("metadata"); //gps 정보 전달
+            dos.writeDouble(lct.getLatitude()); //위험 발생한 위치 위도
+            dos.writeDouble(lct.getLongitude()); //위험 발생한 위치 경도
+            dos.writeDouble(spd); //위험 발생했을 때 속도
+            dos.writeUTF(stdTime+""); //위험 발생했을 때 시간
+
             Log.i("최종 검지 ", "위험");
             Log.i("최종 detecting 및 서버 전송시간", (System.currentTimeMillis() - decletime) / 1000.0 + "s");
+
         } else if (result_rf == NORMAL_SITUATION && result_dp == NORMAL_SITUATION && result_clu == NORMAL_SITUATION) {
 //            Toast.makeText(this.getApplicationContext(), "최종 검지 : 일반", Toast.LENGTH_SHORT).show();
             double[] temp_dp = new double[]{attributes_dp[0], attributes_dp[1], attributes_dp[2], attributes_dp[3], attributes_dp[4], attributes_dp[5], attributes_dp[6], 0};
@@ -712,9 +676,14 @@ public class MainActivity extends Activity
             Log.i("최종 detecting 및 서버 전송시간", (System.currentTimeMillis() - decletime) / 1000.0 + "s");
         } else {
 //            Toast.makeText(this.getApplicationContext(), "최종 검지 : 의심", Toast.LENGTH_SHORT).show();
+//            DataOutputStream dos = sm.getServer_dos();
+//            dos.writeUTF("alarm");
+//            dos.writeUTF("metadata"); //gps 정보 전달
+//            dos.writeDouble(lct.getLatitude()); //위도
+//            dos.writeDouble(lct.getLongitude()); //경도
+//            dos.writeDouble(spd); //속도
+//            dos.writeUTF(stdTime+""); //시간
 
-            DataOutputStream dos = sm.getServer_dos();
-            dos.writeUTF("alarm");
             Log.i("최종 검지 ", "의심");
             Log.i("최종 detecting 및 서버 전송시간", (System.currentTimeMillis() - decletime) / 1000.0 + "s");
         }
@@ -781,7 +750,6 @@ public class MainActivity extends Activity
             e.printStackTrace();
             return 0; //오류 상황
         }
-
     }
 
     public void logRisky(Map<String, Object> risky) {
@@ -898,168 +866,6 @@ public class MainActivity extends Activity
         }
     }
 
-    Runnable detecting = new Runnable() {
-        @Override
-        public void run() {
-//            while (true) {
-            try {
-                Log.i("detecting", (++c) + "회 실행");
-
-                long a = System.currentTimeMillis();
-                Log.i("detecting 처음 시간", a + " s");
-                int[] attributes_rf = new int[ATTR_NUM];
-                double[] attributes_dp = new double[ATTR_NUM];
-                double[] attributes_clu = new double[ATTR_NUM];
-                Random r = new Random();
-
-                //인공 신경망 테스트 데이터
-                attributes_dp[0] = 100.1;
-                attributes_dp[1] = 0;
-                attributes_dp[2] = -30.0;
-                attributes_dp[3] = -30.0;
-                attributes_dp[4] = 54.1;
-                attributes_dp[5] = 4.0;
-                attributes_dp[6] = 10;
-
-                //랜포 테스트 데이터
-                for (int i = 0; i < ATTR_NUM; i++) {
-                    attributes_rf[i] = (int) attributes_dp[i];
-                    attributes_clu[i] = attributes_dp[i];
-                }
-
-                Log.i("attribute_rf", "result:" + Arrays.toString(attributes_rf));
-                Log.i("attribute_dp", "result:" + Arrays.toString(attributes_dp));
-                Log.i("attribute_clu", "result:" + Arrays.toString(attributes_clu));
-
-                // 랜포 검지
-                detectingWithRaF(attributes_rf);
-
-                // 인공신경망 검지
-                detectingWithDp(attributes_dp);
-
-                // 클러스터링 검지
-                detectingWithClu(attributes_clu);
-
-                Log.i("검지시간", System.currentTimeMillis() + " ");
-
-                DataOutputStream dos = sm.getServer_dos();
-                dos.writeUTF("alarm");
-
-                long b = System.currentTimeMillis();
-                Log.i("검지 및 서버 전송시간", (b - a) / 1000.0 + "s");
-
-            } catch (Exception e) {
-                Log.i("detecting", e.toString());
-            }
-//            }
-        }
-    };
-
-//    public void modelUpdating(){
-//        try {
-//            if (buffer_risky.size() > 0) {
-//                double[][] updateDatas = new double[buffer_risky.size()][ATTR_NUM + 1];
-//                for (int i = 0; i < buffer_risky.size(); i++) {
-//                    Log.i("data_update ", Arrays.toString(buffer_risky.get(i)));
-//                    updateDatas[i] = buffer_risky.get(i);
-//                }
-//
-//                updatingWithRaF(updateDatas);
-//
-//                updatingWithDp(updateDatas);
-//
-//                updatingWithClu(updateDatas);
-//
-//                //갱신 데이터 버퍼 클리어
-//                updated_count = buffer_risky.size();
-//                Log.i("buffer_rfbefore", buffer_risky.size() + ".");
-//                buffer_risky.clear();
-//                buffer_normal.clear();
-//                Log.i("buffer_riskyafter", buffer_risky.size() + ".");
-//
-//
-//                handler.post(updateResults); //처리 완료후 Handler의 Post를 사용해서 이벤트 던짐
-//            } else {
-//                Log.i("buffer_size", "0 보다 커야됩니다.");
-//            }
-//        } catch (Exception e) {
-//            Log.e("getDATA", e.toString());
-//        }
-//    }
-//
-//    public void updatingWithRaF(double[][] updateDatas) {
-//        //-----------------------------------랜포 재학습-------------------------------------------------
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(getFilesDir().getAbsolutePath() + "/" + RF_TrainData), true)); // 기존 파일에 붙여씀
-//            PrintWriter pw = new PrintWriter(bw);
-//            for (int i = 0; i < updateDatas.length; i++) {
-//                pw.println((int)updateDatas[i][0] + "," + (int)updateDatas[i][1] + "," + (int)updateDatas[i][2] + "," + (int)updateDatas[i][3] + "," + (int)updateDatas[i][4] + "," + (int)updateDatas[i][5] + "," + (int)updateDatas[i][6] + "," + (int)updateDatas[i][7]);
-//                pw.flush();
-////                            System.out.println("데이터" + (i + 1) + "번째 쓰기 완료");
-//            }
-//            RaF = initRF();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void updatingWithDp(double[][] updateDatas) {
-//        //----------------------------------신경망 재학습--------------------------------------------------//모델을 업데이트해야됨
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(getFilesDir().getAbsolutePath() + "/" + tempDpUpdateData))); // 업데이트를 위한 데이터 파일 새로 생성
-//            PrintWriter pw = new PrintWriter(bw);
-//            for (int i = 0; i < updateDatas.length; i++) {
-//                pw.println(updateDatas[i][0] + "," + updateDatas[i][1] + "," + updateDatas[i][2] + "," + updateDatas[i][3] + "," + updateDatas[i][4] + "," + updateDatas[i][5] + "," + updateDatas[i][6] + "," + (int)updateDatas[i][7]);
-//                pw.flush();
-//            }
-//            DataSet update_data = readCSVDataset(tempDpUpdateData, batchSizeTraining, labelIndex, numClasses);
-//            Log.i("update_date", update_data.getFeatureMatrix() + ";");
-//            normalizer.transform(update_data);
-//            model.fit(update_data);
-//
-//            Log.i("modelfit", "성공");
-//            File locationToSave = new File(getFilesDir().getAbsolutePath() + savedDpModel);      //Where to save the network. Note: the file is in .zip format - can be opened externally
-//            boolean saveUpdater = true;                                             //Updater: i.e., the state for Momentum, RMSProp, Adagrad etc. Save this if you want to train your network more in the future
-//            ModelSerializer.writeModel(model, locationToSave, saveUpdater);
-//            Log.i("Network model", "Updated Network model");
-//
-////                        Toast.makeText(getApplicationContext(), "데이터 " + count + "개 재학습 완료", Toast.LENGTH_SHORT).show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.i("modelfit", "오류");
-////                        Toast.makeText(getApplicationContext(), "재학습 실패", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    public void updatingWithClu(double[][] updateDatas) {
-//        //----------------------------------클러스터링 재학습--------------------------------------------------
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(getFilesDir().getAbsolutePath() + "/" + CLU_TrainData), true)); // 기존 파일에 붙여씀
-//            PrintWriter pw = new PrintWriter(bw);
-//            for (int i = 0; i < updateDatas.length; i++) {
-//                pw.println(updateDatas[i][0] + "," + updateDatas[i][1] + "," + updateDatas[i][2] + "," + updateDatas[i][3] + "," + updateDatas[i][4] + "," + updateDatas[i][5] + "," + updateDatas[i][6]);
-//                pw.flush();
-////                            System.out.println("데이터" + (i + 1) + "번째 쓰기 완료");
-//            }
-//
-//            cd = new ClusteringDemo(getApplicationContext(), new FileInputStream(new File(getFilesDir().getAbsolutePath() + "/" + CLU_TrainData)));
-//            Log.i("clusterer 업데이트 빌드", "ok");
-//
-//            //클러스터링 모델 직렬화
-//            FileOutputStream fosSerial = new FileOutputStream(getFilesDir().getAbsolutePath() + savedCluModel);
-//            BufferedOutputStream bosSerial = new BufferedOutputStream(fosSerial);
-//            ObjectOutputStream oos = new ObjectOutputStream(bosSerial);
-//            oos.writeObject(cd);
-//            oos.close();
-//            Log.i("cluster 업데이트 모델 저장", "ok");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        //asset에 park.arff 을 getFilesDir().getAbsolutePath() 안에 넣고 추가로 버퍼에 있는 데이터를 넣는다
-//        //다시 읽어서 클러스터링 빌드를 한다.
-//    }
-
     Handler handler2 = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -1078,41 +884,6 @@ public class MainActivity extends Activity
             }
         }
     };
-//    //재학습 코드
-//    Runnable getDATA = new Runnable() {
-//        public void run() {
-//            try {
-//                if (buffer_risky.size() > 0) {
-//                    double[][] updateDatas = new double[buffer_risky.size()][ATTR_NUM + 1];
-//                    for (int i = 0; i < buffer_risky.size(); i++) {
-//                        Log.i("data_update buffer_rf", Arrays.toString(buffer_risky.get(i)));
-//                        updateDatas[i] = buffer_risky.get(i);
-//                    }
-//
-//                    updatingWithRaF(updateDatas);
-//
-//                    updatingWithDp(updateDatas);
-//
-//                    //갱신 데이터 버퍼 클리어
-//                    updated_count = buffer_risky.size();
-//                    Log.i("buffer_rfbefore", buffer_risky.size() + ".");
-//                    buffer_risky.clear();
-//                    buffer_normal.clear();
-//                    Log.i("buffer_rfafter", buffer_risky.size() + ".");
-//
-//                    //----------------------------------클러스터링 재학습--------------------------------------------------
-//                    //asset에 park.arff 을 getFilesDir().getAbsolutePath() 안에 넣고 추가로 버퍼에 있는 데이터를 넣는다
-//                    //다시 읽어서 클러스터링 빌드를 한다.
-//
-//                    handler.post(updateResults); //처리 완료후 Handler의 Post를 사용해서 이벤트 던짐
-//                } else {
-//                    Log.i("buffer_size", "0 보다 커야됩니다.");
-//                }
-//            } catch (Exception e) {
-//                Log.e("getDATA", e.toString());
-//            }
-//        }
-//    };
 
     //Toast 메시지
     Runnable updateResults = new Runnable() {
@@ -1152,9 +923,7 @@ public class MainActivity extends Activity
             Log.i("asd", "aaa");
             e.printStackTrace();
         }
-
     }
-
 
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -1314,6 +1083,7 @@ public class MainActivity extends Activity
     }
 
     private void realProc() {
+        Log.i("lct",lct+"");
         if (lct == null)
             return;
 
@@ -1334,16 +1104,16 @@ public class MainActivity extends Activity
                 e.printStackTrace();
             }
 
-        if (speedList.size() > 0 && speedList.get(speedList.size() - 1) >= spd) {
-//            if(speedList.get(speedList.size()-1)==0 && speedList.get(speedList.size()-2)==0){
-//                Log.i("멈춰있음","ㅋ");
-//                speedList.clear();
-//                return;
-//            }
+        if (speedList.size() > 1 && speedList.get(speedList.size() - 1) >= spd) {
+            if(speedList.get(speedList.size()-1)==0 && speedList.get(speedList.size()-2)==0){
+                Log.i("멈춰있음","ㅋ");
+                speedList.clear();
+                return;
+            }
             decletime = System.currentTimeMillis();
             speedList.add(spd);
             aiProc();
-        } else if (speedList.size() <= 0)
+        } else if (speedList.size() <= 1)
             speedList.add(spd);
         else
             speedList.clear();
