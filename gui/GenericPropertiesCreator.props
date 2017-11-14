@@ -1,0 +1,203 @@
+# Customises the list of options given by the GenericObjectEditor
+# for various superclasses.
+#
+# Version: $Revision: 6624 $
+
+# Whether to use the dynamic approach or not (true|false). In case of
+# "false" the old GenericObjectEditor.props file is used:
+UseDynamic=true
+
+# Lists the ResultProducers-Packages I want to choose from
+com.example.g.cardet.experiment.ResultProducer=\
+  com.example.g.cardet.experiment
+
+# Lists the ResultListeners-Packages I want to choose from
+com.example.g.cardet.experiment.ResultListener=\
+  com.example.g.cardet.experiment
+
+# Lists the SplitEvaluators-Packages I want to choose from
+com.example.g.cardet.experiment.SplitEvaluator=\
+  com.example.g.cardet.experiment
+
+# Lists the Classifiers-Packages I want to choose from
+com.example.g.cardet.classifiers.Classifier=\
+ com.example.g.cardet.classifiers.bayes,\
+ com.example.g.cardet.classifiers.functions,\
+ com.example.g.cardet.classifiers.lazy,\
+ com.example.g.cardet.classifiers.meta,\
+ com.example.g.cardet.classifiers.meta.nestedDichotomies,\
+ com.example.g.cardet.classifiers.mi,\
+ com.example.g.cardet.classifiers.misc,\
+ com.example.g.cardet.classifiers.scripting,\
+ com.example.g.cardet.classifiers.trees,\
+ com.example.g.cardet.classifiers.rules
+
+# Lists the AbstractClassificationOutput-packages I want to choose from
+com.example.g.cardet.classifiers.evaluation.output.prediction.AbstractOutput=\
+  com.example.g.cardet.classifiers.evaluation.output.prediction
+
+# Lists the Filters-Packages I want to choose from
+com.example.g.cardet.filters.Filter= \
+ com.example.g.cardet.filters, \
+ com.example.g.cardet.filters.supervised.attribute, \
+ com.example.g.cardet.filters.supervised.instance, \
+ com.example.g.cardet.filters.unsupervised.attribute, \
+ com.example.g.cardet.filters.unsupervised.instance
+
+# Lists the UnsupervisedFilters-Packages I want to choose from
+com.example.g.cardet.filters.UnsupervisedFilter = \
+ com.example.g.cardet.filters.unsupervised.attribute, \
+ com.example.g.cardet.filters.unsupervised.instance
+
+# Lists the Attribute Selection Evaluators-Packages I want to choose from
+com.example.g.cardet.attributeSelection.ASEvaluation = \
+ com.example.g.cardet.attributeSelection
+
+# Lists the Attribute Selection Search methods-Packages I want to choose from
+com.example.g.cardet.attributeSelection.ASSearch = \
+ com.example.g.cardet.attributeSelection
+
+# Lists the Associators-Packages I want to choose from
+com.example.g.cardet.associations.Associator=\
+ com.example.g.cardet.associations
+
+# Lists the Clusterers-Packages I want to choose from
+com.example.g.cardet.clusterers.Clusterer=\
+ com.example.g.cardet.clusterers
+
+# Lists the DensityBasedClusterers I want to choose from
+com.example.g.cardet.clusterers.DensityBasedClusterer=\
+ com.example.g.cardet.clusterers
+
+# Lists the Loaders-Packages I want to choose from
+com.example.g.cardet.core.converters.Loader=\
+ com.example.g.cardet.core.converters
+
+# Lists the Savers-Packages I want to choose from
+com.example.g.cardet.core.converters.Saver=\
+ com.example.g.cardet.core.converters
+
+# Lists the search algorithms for nearest neighbour search
+com.example.g.cardet.core.neighboursearch.NearestNeighbourSearch =\
+ com.example.g.cardet.core.neighboursearch
+
+# Lists the ball tree constructors
+com.example.g.cardet.core.neighboursearch.balltrees.BallTreeConstructor =\
+ com.example.g.cardet.core.neighboursearch.balltrees
+
+# Lists the ball splitters
+com.example.g.cardet.core.neighboursearch.balltrees.BallSplitter =\
+ com.example.g.cardet.core.neighboursearch.balltrees
+ 
+# Lists the kd tree splitters
+com.example.g.cardet.core.neighboursearch.kdtrees.KDTreeNodeSplitter =\
+ com.example.g.cardet.core.neighboursearch.kdtrees
+
+# Lists the distance functions for use nearest neighbour search
+com.example.g.cardet.core.DistanceFunction =\
+ com.example.g.cardet.core
+
+# Lists the Search algorithm for Bayes net structure learning-Packages I want to choose from
+com.example.g.cardet.classifiers.bayes.net.search.SearchAlgorithm=\
+ com.example.g.cardet.classifiers.bayes.net.search.local, \
+ com.example.g.cardet.classifiers.bayes.net.search.ci, \
+ com.example.g.cardet.classifiers.bayes.net.search.global, \
+ com.example.g.cardet.classifiers.bayes.net.search.fixed
+
+com.example.g.cardet.classifiers.bayes.net.estimate.BayesNetEstimator =\
+ com.example.g.cardet.classifiers.bayes.net.estimate
+
+# Lists the DataGenerator Algorithms-Packages
+com.example.g.cardet.datagenerators.DataGenerator=\
+ com.example.g.cardet.datagenerators.classifiers.classification,\
+ com.example.g.cardet.datagenerators.classifiers.regression,\
+ com.example.g.cardet.datagenerators.clusterers
+
+# Lists the packages where to find ClusterDefinition
+com.example.g.cardet.datagenerators.ClusterDefinition=\
+ com.example.g.cardet.datagenerators,\
+ com.example.g.cardet.datagenerators.clusterers
+
+# List of stemmers
+com.example.g.cardet.core.stemmers.Stemmer=\
+ com.example.g.cardet.core.stemmers
+
+# Lists the Estimator-Packages I want to choose from
+com.example.g.cardet.estimators.Estimator= \
+ com.example.g.cardet.estimators
+
+# Lists of Kernels I want to choose from
+com.example.g.cardet.classifiers.functions.supportVector.Kernel=\
+ com.example.g.cardet.classifiers.functions.supportVector,\
+ com.example.g.cardet.classifiers.mi.supportVector
+
+# List of SVMreg learning algorithms
+com.example.g.cardet.classifiers.functions.supportVector.RegOptimizer=\
+ com.example.g.cardet.classifiers.functions.supportVector
+
+# List of tokenizers
+com.example.g.cardet.core.tokenizers.Tokenizer=\
+ com.example.g.cardet.core.tokenizers
+
+# List of extensions for the main GUI, package "com.example.g.cardet.gui" is not allowed
+com.example.g.cardet.gui.MainMenuExtension=
+
+# List of Explorer visualization plugins (classification panel)
+com.example.g.cardet.gui.visualize.plugins.VisualizePlugin=\
+ com.example.g.cardet.gui.visualize.plugins
+
+# List of Explorer tree visualization plugins (classification panel)
+com.example.g.cardet.gui.visualize.plugins.TreeVisualizePlugin=\
+ com.example.g.cardet.gui.visualize.plugins
+
+# List of Explorer graph visualization plugins (classification panel)
+com.example.g.cardet.gui.visualize.plugins.GraphVisualizePlugin=\
+ com.example.g.cardet.gui.visualize.plugins
+
+# List of Explorer error visualization plugins (classification panel)
+com.example.g.cardet.gui.visualize.plugins.ErrorVisualizePlugin=\
+ com.example.g.cardet.gui.visualize.plugins
+ 
+#List of Explorer association rule visualization plugins (associations panel)
+com.example.g.cardet.gui.visualize.plugins.AssociationRuleVisualizePlugin=\
+ com.example.g.cardet.gui.visualize.plugins
+
+# List of writers for outputting graphics
+com.example.g.cardet.gui.visualize.JComponentWriter=\
+ com.example.g.cardet.gui.visualize
+
+# List of Experimenter result matrices
+com.example.g.cardet.experiment.ResultMatrix=\
+ com.example.g.cardet.experiment
+
+# List of Tester algorithms in the Experimenter
+com.example.g.cardet.experiment.Tester=\
+ com.example.g.cardet.experiment
+
+# List of file loaders
+com.example.g.cardet.core.converters.AbstractFileLoader=\
+ com.example.g.cardet.core.converters
+
+# List of file savers
+com.example.g.cardet.core.converters.AbstractFileSaver=\
+ com.example.g.cardet.core.converters
+
+# List of snowball stemmers.
+#
+# Note: the snowball jar needs to be in the CLASSPATH to make these stemmers
+#       available. See the following links for more information:
+#       http://com.example.g.cardet.wikispaces.com/Stemmers
+#       http://snowball.tartarus.org/
+#
+#org.tartarus.snowball.SnowballProgram=\
+# org.tartarus.snowball.ext
+
+# List of generators
+#com.example.g.cardet.classifiers.meta.generators.Generator=\
+# com.example.g.cardet.classifiers.meta.generators
+
+#com.example.g.cardet.classifiers.meta.generators.NumericAttributeGenerator=\
+# com.example.g.cardet.classifiers.meta.generators
+
+#com.example.g.cardet.classifiers.meta.generators.NominalAttributeGenerator=\
+# com.example.g.cardet.classifiers.meta.generators
